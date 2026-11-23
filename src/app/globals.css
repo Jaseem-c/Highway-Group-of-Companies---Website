@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/* ───────────── Fonts (self-hosted, variable) ───────────── */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("/fonts/archivo-latin-wdth-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/hanken-grotesk-latin-wght-normal.woff2") format("woff2");
+}
+
+/* ───────────── Design tokens ───────────── */
+@theme {
+  --color-brand: #b51226;
+  --color-brand-deep: #8f0e1e;
+  /* Lighter tint of the brand red for accents on burgundy (meets 4.5:1) */
+  --color-brand-bright: #ee4a58;
+  --color-burgundy: #4a0d12;
+  --color-burgundy-soft: #5d1119;
+  --color-ink: #111111;
+  --color-paper: #f5f5f5;
+  --color-steel: #737373;
+  --color-line: #e3e3e3;
+
+  --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  --breakpoint-3xl: 112rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 7.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: #fff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-brand);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* ───────────── Type scale ───────────── */
+@layer components {
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-variation-settings: "wdth" 108;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .display-xl {
+    font-size: clamp(2.5rem, 6.2vw, 6rem);
+  }
+  .display-lg {
+    font-size: clamp(2rem, 3.9vw, 3.5rem);
+  }
+  .display-md {
+    font-size: clamp(1.625rem, 2.7vw, 2.375rem);
+    line-height: 1.04;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-variation-settings: "wdth" 100;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 2.25rem;
+    height: 2px;
+    background: currentColor;
+  }
+  .on-dark .eyebrow,
+  .eyebrow.on-dark {
+    color: #fff;
+  }
+  .lede {
+    font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+    line-height: 1.55;
+    color: #3d3d3d;
+  }
+  .on-dark .lede {
+    color: rgb(255 255 255 / 0.78);
+  }
+
+  /* Angled corner, taken from the diagonal shapes in the brochure */
+  .cut-br {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut, 2rem)), calc(100% - var(--cut, 2rem)) 100%, 0 100%);
+  }
+  .cut-tl {
+    clip-path: polygon(var(--cut, 2rem) 0, 100% 0, 100% 100%, 0 100%, 0 var(--cut, 2rem));
+  }
+  .cut-both {
+    clip-path: polygon(var(--cut, 2rem) 0, 100% 0, 100% calc(100% - var(--cut, 2rem)), calc(100% - var(--cut, 2rem)) 100%, 0 100%, 0 var(--cut, 2rem));
+  }
+
+  /* Hexagon line pattern (from the brochure's hexagonal product grids) */
+  .hex-bg {
+    background-image: url("/hex-pattern.svg");
+    background-size: 87px auto;
+  }
+
+  /* Recolourable brochure icons */
+  .icon-mask {
+    display: inline-block;
+    background-color: currentColor;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s var(--ease-out-expo);
+  }
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hero entrance — pure CSS so it never delays first paint */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(1.5rem); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes reveal-x {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+.rise { animation: rise 1s var(--ease-out-expo) both; animation-delay: var(--d, 0s); }
+.on-dark .eyebrow::before { background: var(--color-brand); }
