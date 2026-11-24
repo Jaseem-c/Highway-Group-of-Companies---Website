@@ -16,6 +16,7 @@ export type HeaderCopy = {
   common: Pick<Dictionary["common"], "primaryNav" | "mobileNav" | "openMenu" | "closeMenu" | "switchLabel" | "switchAria">;
 };
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ScrollProgress } from "./ScrollProgress";
 import { Container } from "@/components/ui/Container";
 import { buttonClasses } from "@/components/ui/Button";
 import { Logo } from "./Logo";
@@ -119,6 +120,7 @@ export function Header({ lang, t }: { lang: Locale; t: HeaderCopy }) {
         </div>
       </Container>
 
+      <ScrollProgress />
       <AnimatePresence>
         {open && (
           <motion.div

@@ -35,10 +35,10 @@ export function DivisionRow({ division, index, lang, t }: { division: Division; 
   return (
     <section id={division.slug} className={`py-20 sm:py-28 ${index % 2 === 1 ? "bg-paper" : "bg-white"}`}>
       <Container className="grid items-center gap-12 lg:grid-cols-12 lg:gap-20">
-        <Reveal className={`lg:col-span-6 ${flip ? "lg:order-2" : ""}`}>
+        <Reveal from={flip ? "end" : "start"} className={`lg:col-span-6 ${flip ? "lg:order-2" : ""}`}>
           <Visual division={division} index={index} lang={lang} />
         </Reveal>
-        <Reveal delay={0.1} className={`lg:col-span-6 ${flip ? "lg:order-1" : ""}`}>
+        <Reveal from={flip ? "start" : "end"} delay={0.1} className={`lg:col-span-6 ${flip ? "lg:order-1" : ""}`}>
           <div className="flex items-center gap-4">
             <span className="font-display text-sm font-bold tracking-[0.2em] text-brand">
               <bdi dir="ltr">{String(index + 1).padStart(2, "0")} / 08</bdi>

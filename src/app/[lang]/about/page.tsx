@@ -5,6 +5,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkButton } from "@/components/ui/Button";
+import { CountUp } from "@/components/ui/CountUp";
 import { DivisionIcon } from "@/components/ui/DivisionIcon";
 import { divisions } from "@/content/divisions";
 import { site } from "@/content/site";
@@ -26,9 +27,9 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
   const t = await getDictionary(lang);
   const a = t.about;
   const presence = [
-    { value: String(site.facts.legacyYears), label: t.common.years },
-    { value: String(site.facts.outlets), label: t.common.outlets },
-    { value: String(site.facts.divisions), label: t.common.divisions },
+    { value: site.facts.legacyYears, label: t.common.years },
+    { value: site.facts.outlets, label: t.common.outlets },
+    { value: site.facts.divisions, label: t.common.divisions },
   ];
   return (
     <>
@@ -45,7 +46,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
       {/* History */}
       <section className="py-24 sm:py-32">
         <Container className="grid gap-14 lg:grid-cols-12 lg:gap-20">
-          <Reveal className="lg:col-span-5">
+          <Reveal from="start" className="lg:col-span-5">
             <p className="eyebrow">{a.history.eyebrow}</p>
             <h2 className="display display-lg mt-5">{a.history.title}</h2>
             <div className="cut-both [--cut:3rem] relative mt-10 aspect-[3/2] overflow-hidden bg-burgundy">
@@ -58,7 +59,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
               />
             </div>
           </Reveal>
-          <Reveal delay={0.1} className="lg:col-span-7 lg:pt-16">
+          <Reveal from="end" delay={0.1} className="lg:col-span-7 lg:pt-16">
             <p className="lede !text-ink">{a.history.lede}</p>
             <div className="mt-8 space-y-6 text-[#3d3d3d]">
               <p>{a.history.p1}</p>
@@ -67,7 +68,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
             <dl className="mt-12 grid grid-cols-3 border-t border-ink">
               {presence.map((f) => (
                 <div key={f.label} className="border-s border-line py-6 ps-5 first:border-s-0 first:ps-0 sm:ps-8">
-                  <dd className="display text-[clamp(2.25rem,5vw,4rem)] leading-none text-brand">{f.value}</dd>
+                  <dd className="display text-[clamp(2.25rem,5vw,4rem)] leading-none text-brand"><CountUp value={f.value} /></dd>
                   <dt className="mt-2 text-xs uppercase tracking-[0.14em] text-steel">{f.label}</dt>
                 </div>
               ))}
@@ -80,7 +81,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
       <section className="on-dark relative isolate overflow-hidden bg-burgundy text-white">
         <div className="hex-bg absolute inset-0 -z-10 opacity-35" aria-hidden />
         <Container className="grid lg:grid-cols-2">
-          <Reveal className="border-b border-white/20 py-20 sm:py-28 lg:border-b-0 lg:border-e lg:pe-16">
+          <Reveal from="start" className="border-b border-white/20 py-20 sm:py-28 lg:border-b-0 lg:border-e lg:pe-16">
             <p className="eyebrow">{a.vision.eyebrow}</p>
             <h2 className="display display-md mt-5">{a.vision.title}</h2>
             <div className="mt-8 space-y-5 text-white/80">
@@ -89,7 +90,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
               <p>{a.vision.p3}</p>
             </div>
           </Reveal>
-          <Reveal delay={0.1} className="py-20 sm:py-28 lg:ps-16">
+          <Reveal from="end" delay={0.1} className="py-20 sm:py-28 lg:ps-16">
             <p className="eyebrow">{a.mission.eyebrow}</p>
             <h2 className="display display-md mt-5">{a.mission.title}</h2>
             <div className="mt-8 space-y-5 text-white/80">

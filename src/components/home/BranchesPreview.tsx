@@ -12,7 +12,7 @@ export function BranchesPreview({ lang, t }: { lang: Locale; t: Dictionary }) {
   return (
     <section className="on-dark bg-ink py-24 text-white sm:py-32">
       <Container className="grid gap-14 lg:grid-cols-12">
-        <Reveal className="lg:col-span-4">
+        <Reveal from="start" className="lg:col-span-4">
           <p className="eyebrow">{s.eyebrow}</p>
           <h2 className="display display-lg mt-5">{s.title}</h2>
           <p className="lede mt-6">
@@ -25,7 +25,7 @@ export function BranchesPreview({ lang, t }: { lang: Locale; t: Dictionary }) {
 
         <ol className="border-t border-white/15 lg:col-span-8">
           {branches.map((b, i) => (
-            <li key={b.slug} className="border-b border-white/15">
+            <Reveal as="li" from="end" delay={i * 0.07} key={b.slug} className="border-b border-white/15">
               <Link
                 href={`${href(lang, "/branches")}#${b.slug}`}
                 className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 px-1 py-5 transition-colors hover:bg-white/5 sm:grid-cols-[3.5rem_1fr_14rem_auto] sm:py-6"
@@ -37,7 +37,7 @@ export function BranchesPreview({ lang, t }: { lang: Locale; t: Dictionary }) {
                 <span className="col-start-2 text-sm text-white/60 sm:col-start-auto">{b.area[lang]}</span>
                 <ArrowUpRight aria-hidden className="rtl:-scale-x-100 row-start-1 col-start-3 size-5 text-white/40 transition-colors group-hover:text-brand sm:col-start-4 sm:row-start-auto" />
               </Link>
-            </li>
+            </Reveal>
           ))}
         </ol>
       </Container>

@@ -23,8 +23,8 @@ export function FeaturedProducts({ lang, t }: { lang: Locale; t: Dictionary }) {
         </Reveal>
 
         <ul className="mt-14 grid grid-cols-2 gap-px bg-line lg:grid-cols-4">
-          {featuredProducts.map((p) => (
-            <li key={p.label.en} className="bg-white">
+          {featuredProducts.map((p, i) => (
+            <Reveal as="li" from="scale" delay={(i % 4) * 0.08} key={p.label.en} className="bg-white">
               <Link href={`${href(lang, "/products")}#${p.division}`} className="group block h-full focus-visible:outline-offset-[-4px]">
                 <div className="relative aspect-square overflow-hidden">
                   <Image
@@ -43,7 +43,7 @@ export function FeaturedProducts({ lang, t }: { lang: Locale; t: Dictionary }) {
                   {p.label[lang]}
                 </p>
               </Link>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </Container>

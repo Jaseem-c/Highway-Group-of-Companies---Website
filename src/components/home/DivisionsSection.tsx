@@ -25,7 +25,7 @@ export function DivisionsSection({ lang, t }: { lang: Locale; t: Dictionary }) {
 
         <ul className="mt-14 grid grid-cols-2 border-s border-t border-white/20 lg:mt-16 lg:grid-cols-4">
           {divisions.map((d, i) => (
-            <li key={d.slug} className="shadow-[inset_-1px_-1px_0_0_rgb(255_255_255/0.2)] rtl:shadow-[inset_1px_-1px_0_0_rgb(255_255_255/0.2)]">
+            <Reveal as="li" from="scale" delay={(i % 4) * 0.09} key={d.slug} className="shadow-[inset_-1px_-1px_0_0_rgb(255_255_255/0.2)] rtl:shadow-[inset_1px_-1px_0_0_rgb(255_255_255/0.2)]">
               <Link
                 href={`${href(lang, "/products")}#${d.slug}`}
                 className="group relative flex h-full min-h-[14rem] flex-col justify-between gap-8 p-5 transition-colors duration-500 hover:bg-brand focus-visible:bg-brand focus-visible:outline-offset-[-4px] sm:min-h-[18rem] sm:gap-12 sm:p-8"
@@ -44,7 +44,7 @@ export function DivisionsSection({ lang, t }: { lang: Locale; t: Dictionary }) {
                   <h3 className="display mt-5 text-[0.9375rem] leading-[1.1] sm:mt-6 sm:text-2xl">{d.name[lang]}</h3>
                 </div>
               </Link>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </Container>

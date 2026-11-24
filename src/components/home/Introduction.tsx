@@ -32,7 +32,7 @@ export function Introduction({ lang, t }: { lang: Locale; t: Dictionary }) {
           </Reveal>
         </div>
 
-        <Reveal delay={0.15} className="lg:col-span-6">
+        <Reveal from="wipe" delay={0.15} className="lg:col-span-6">
           <div className="relative">
             <div className="cut-both [--cut:3.5rem] relative aspect-[3/2] overflow-hidden bg-burgundy">
               <Image

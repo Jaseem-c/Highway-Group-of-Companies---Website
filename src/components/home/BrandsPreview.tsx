@@ -27,10 +27,10 @@ export function BrandsPreview({ lang, t }: { lang: Locale; t: Dictionary }) {
           </LinkButton>
         </Reveal>
         <ul className="mt-14 grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
-          {list.map((b) => (
-            <li key={b.slug} className="bg-white">
+          {list.map((b, i) => (
+            <Reveal as="li" from="scale" delay={(i % 7) * 0.05} key={b.slug} className="bg-white">
               <BrandTile brand={b} t={t} />
-            </li>
+            </Reveal>
           ))}
         </ul>
       </Container>
