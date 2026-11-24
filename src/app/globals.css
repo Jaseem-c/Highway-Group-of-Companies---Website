@@ -17,6 +17,24 @@
   src: url("/fonts/hanken-grotesk-latin-wght-normal.woff2") format("woff2");
 }
 
+/* Arabic: only downloaded when Arabic characters are rendered (unicode-range) */
+@font-face {
+  font-family: "Noto Kufi Arabic";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/noto-kufi-arabic-arabic-wght-normal.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+  font-family: "Noto Sans Arabic";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/noto-sans-arabic-arabic-wght-normal.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
 /* ───────────── Design tokens ───────────── */
 @theme {
   --color-brand: #b51226;
@@ -30,8 +48,8 @@
   --color-steel: #737373;
   --color-line: #e3e3e3;
 
-  --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;
-  --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-display: "Archivo", "Noto Kufi Arabic", "Arial Narrow", Arial, sans-serif;
+  --font-sans: "Hanken Grotesk", "Noto Sans Arabic", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 
   --breakpoint-3xl: 112rem;
 
@@ -184,3 +202,44 @@
 }
 .rise { animation: rise 1s var(--ease-out-expo) both; animation-delay: var(--d, 0s); }
 .on-dark .eyebrow::before { background: var(--color-brand); }
+
+/* ───────────── Arabic / RTL ───────────── */
+/* Arabic script is cursive: no tracking, no capitals, looser leading. */
+:lang(ar) .display,
+:lang(ar) .eyebrow,
+:lang(ar) [class*="tracking-"],
+:lang(ar) .uppercase {
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+:lang(ar) .display {
+  line-height: 1.25;
+  font-weight: 700;
+}
+:lang(ar) .display-md {
+  line-height: 1.3;
+}
+:lang(ar) body {
+  line-height: 1.85;
+}
+:lang(ar) .lede {
+  line-height: 1.8;
+}
+
+/* Mirror the brochure's angled corners and the reveal wipe */
+[dir="rtl"] .cut-br {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, var(--cut, 2rem) 100%, 0 calc(100% - var(--cut, 2rem)));
+}
+[dir="rtl"] .cut-tl {
+  clip-path: polygon(0 0, calc(100% - var(--cut, 2rem)) 0, 100% var(--cut, 2rem), 100% 100%, 0 100%);
+}
+[dir="rtl"] .cut-both {
+  clip-path: polygon(0 0, calc(100% - var(--cut, 2rem)) 0, 100% var(--cut, 2rem), 100% 100%, var(--cut, 2rem) 100%, 0 calc(100% - var(--cut, 2rem)));
+}
+[dir="rtl"] .hex-bg {
+  transform-origin: center;
+}
+@keyframes reveal-x-rtl {
+  from { clip-path: inset(0 0 0 100%); }
+  to { clip-path: inset(0 0 0 0); }
+}

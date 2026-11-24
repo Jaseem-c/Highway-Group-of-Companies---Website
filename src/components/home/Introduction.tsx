@@ -2,31 +2,32 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { LinkButton } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
+import { href, type Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/en";
 
-export function Introduction() {
+export function Introduction({ lang, t }: { lang: Locale; t: Dictionary }) {
+  const i = t.home.intro;
   return (
     <section className="py-24 sm:py-32 lg:py-40">
       <Container className="grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-6">
           <Reveal>
-            <p className="eyebrow">About the group</p>
+            <p className="eyebrow">{i.eyebrow}</p>
             <h2 className="display display-lg mt-5">
-              A premier UAE conglomerate with a <span className="text-brand">24-year</span> legacy of excellence
+              {i.titleA}<span className="text-brand">{i.titleB}</span>{i.titleC}
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="mt-8 max-w-xl space-y-5 text-[#3d3d3d]">
               <p>
-                Highway Electrical Equipment LLC specialises in sourcing and distributing advanced, technology-driven
-                electrical products, backed by modern after-sales service.
+                {i.p1}
               </p>
               <p>
-                Operating 7 strategic outlets, we serve retail and wholesale markets with a premium portfolio that includes
-                high-grade cables, advanced light fittings, building materials, paints and specialised accessories.
+                {i.p2}
               </p>
             </div>
-            <LinkButton href="/about" variant="dark" className="mt-10">
-              Our story
+            <LinkButton href={href(lang, "/about")} variant="dark" className="mt-10">
+              {i.cta}
             </LinkButton>
           </Reveal>
         </div>
@@ -36,13 +37,13 @@ export function Introduction() {
             <div className="cut-both [--cut:3.5rem] relative aspect-[3/2] overflow-hidden bg-burgundy">
               <Image
                 src="/images/24-years.jpg"
-                alt="24 years of excellence"
+                alt={i.imgAlt}
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"
               />
             </div>
-            <div className="absolute -bottom-5 left-0 h-1.5 w-1/3 bg-brand" aria-hidden />
+            <div className="absolute -bottom-5 start-0 h-1.5 w-1/3 bg-brand" aria-hidden />
           </div>
         </Reveal>
       </Container>

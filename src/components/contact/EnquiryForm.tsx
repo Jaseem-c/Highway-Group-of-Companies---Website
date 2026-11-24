@@ -7,13 +7,15 @@ import { divisions } from "@/content/divisions";
 import { branches } from "@/content/branches";
 import { site } from "@/content/site";
 import { buttonClasses } from "@/components/ui/Button";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/en";
 import {
   branchName,
   divisionName,
-  enquiryTypes,
   validateEnquiry,
   type EnquiryInput,
   type EnquiryType,
+  type ErrorCode,
   type FieldErrors,
 } from "@/lib/enquiry";
 
@@ -35,8 +37,9 @@ const inputCls =
   "w-full border border-[#cfcfcf] bg-white px-4 py-3.5 text-base text-ink transition-colors placeholder:text-[#9a9a9a] hover:border-ink focus:border-brand focus:outline-none focus:ring-0 aria-[invalid=true]:border-brand aria-[invalid=true]:bg-brand/[0.03]";
 const labelCls = "mb-2 block font-display text-xs font-bold uppercase tracking-[0.14em] text-ink";
 
-function FieldError({ name, message }: { name: string; message?: string }) {
-  if (!message) return null;
+function FieldError({ name, code, errors }: { name: string; code?: ErrorCode; errors: Dictionary["form"]["errors"] }) {
+  if (!code) return null;
+  const message = errors[code];
   return (
     <p id={`${name}-error`} className="mt-2 text-sm text-brand">
       {message}
@@ -44,7 +47,12 @@ function FieldError({ name, message }: { name: string; message?: string }) {
   );
 }
 
-export function EnquiryForm() {
+export function EnquiryForm({ lang, t }: { lang: Locale; t: Dictionary["form"] }) {
+  const enquiryTypes = [
+    { value: "general", label: t.general },
+    { value: "business", label: t.business },
+  ] as const;
+  
   const params = useSearchParams();
   const presetDivision = params.get("division") ?? "";
   const [values, setValues] = useState<EnquiryInput>(() => {
@@ -62,19 +70,19 @@ export function EnquiryForm() {
   };
 
   const blur = (key: keyof EnquiryInput) => {
-    const msg = validateEnquiry(values)[key];
-    setErrors((e) => ({ ...e, [key]: msg }));
+    const code = validateEnquiry(values)[key];
+    setErrors((e) => ({ ...e, [key]: code }));
   };
 
   const mailtoHref = () => {
-    const details: string[] = [`Name: ${values.name}`];
-    if (values.company) details.push(`Company: ${values.company}`);
-    details.push(`Email: ${values.email}`);
-    if (values.phone) details.push(`Phone: ${values.phone}`);
-    if (values.division) details.push(`Division: ${divisionName(values.division)}`);
-    if (values.branch) details.push(`Preferred outlet: ${branchName(values.branch)}`);
+    const details: string[] = [`${t.mailName}: ${values.name}`];
+    if (values.company) details.push(`${t.mailCompany}: ${values.company}`);
+    details.push(`${t.mailEmail}: ${values.email}`);
+    if (values.phone) details.push(`${t.mailPhone}: ${values.phone}`);
+    if (values.division) details.push(`${t.mailDivision}: ${divisionName(values.division)}`);
+    if (values.branch) details.push(`${t.mailBranch}: ${branchName(values.branch)}`);
     const body = [...details, "", values.message].join("\n");
-    return `mailto:${site.hq.email}?subject=${encodeURIComponent("Website enquiry")}&body=${encodeURIComponent(body)}`;
+    return `mailto:${site.hq.email}?subject=${encodeURIComponent(t.mailSubject)}&body=${encodeURIComponent(body)}`;
   };
 
   async function onSubmit(e: FormEvent) {
@@ -114,9 +122,9 @@ export function EnquiryForm() {
     return (
       <div role="status" className="cut-br [--cut:2rem] border border-line bg-paper p-8 sm:p-12">
         <CheckCircle2 aria-hidden className="size-10 text-brand" />
-        <h3 className="display display-md mt-6">Thank you, {values.name.split(" ")[0]}</h3>
+        <h3 className="display display-md mt-6">{t.successTitle.replace("{name}", values.name.split(" ")[0])}</h3>
         <p className="lede mt-4">
-          Your enquiry has been sent to our team. We will reply to {values.email} as soon as we can.
+          {t.successText.split("{email}")[0]}<bdi dir="ltr">{values.email}</bdi>{t.successText.split("{email}")[1]}
         </p>
         <button
           type="button"
@@ -126,7 +134,7 @@ export function EnquiryForm() {
             setStatus("idle");
           }}
         >
-          Send another enquiry
+          {t.another}
         </button>
       </div>
     );
@@ -136,7 +144,7 @@ export function EnquiryForm() {
   return (
     <form ref={formRef} onSubmit={onSubmit} noValidate aria-describedby="form-status" className="space-y-7">
       <fieldset>
-        <legend className={labelCls}>Enquiry type</legend>
+        <legend className={labelCls}>{t.type}</legend>
         <div className="grid grid-cols-1 gap-px bg-[#cfcfcf] sm:grid-cols-2">
           {enquiryTypes.map((t) => (
             <label
@@ -168,59 +176,59 @@ export function EnquiryForm() {
       <div className="grid gap-7 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelCls}>
-            Full name <span className="text-brand">*</span>
+            {t.name} <span className="text-brand">*</span>
           </label>
           <input id="name" name="name" autoComplete="name" className={inputCls} value={values.name}
             onChange={(e) => set("name", e.target.value)} onBlur={() => blur("name")}
             aria-invalid={!!errors.name} aria-describedby={err("name")} required />
-          <FieldError name="name" message={errors.name} />
+          <FieldError name="name" code={errors.name} errors={t.errors} />
         </div>
         <div>
           <label htmlFor="company" className={labelCls}>
-            Company {values.type === "business" ? <span className="text-brand">*</span> : <span className="font-normal normal-case tracking-normal text-steel">(optional)</span>}
+            {t.company} {values.type === "business" ? <span className="text-brand">*</span> : <span className="font-normal normal-case tracking-normal text-steel">{t.optional}</span>}
           </label>
           <input id="company" name="company" autoComplete="organization" className={inputCls} value={values.company}
             onChange={(e) => set("company", e.target.value)} onBlur={() => blur("company")}
             aria-invalid={!!errors.company} aria-describedby={err("company")} />
-          <FieldError name="company" message={errors.company} />
+          <FieldError name="company" code={errors.company} errors={t.errors} />
         </div>
         <div>
           <label htmlFor="email" className={labelCls}>
-            Email <span className="text-brand">*</span>
+            {t.email} <span className="text-brand">*</span>
           </label>
-          <input id="email" name="email" type="email" inputMode="email" autoComplete="email" className={inputCls}
+          <input id="email" dir="ltr" name="email" type="email" inputMode="email" autoComplete="email" className={inputCls}
             value={values.email} onChange={(e) => set("email", e.target.value)} onBlur={() => blur("email")}
             aria-invalid={!!errors.email} aria-describedby={err("email")} required />
-          <FieldError name="email" message={errors.email} />
+          <FieldError name="email" code={errors.email} errors={t.errors} />
         </div>
         <div>
           <label htmlFor="phone" className={labelCls}>
-            Phone <span className="font-normal normal-case tracking-normal text-steel">(optional)</span>
+            {t.phone} <span className="font-normal normal-case tracking-normal text-steel">{t.optional}</span>
           </label>
-          <input id="phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" className={inputCls}
+          <input id="phone" dir="ltr" name="phone" type="tel" inputMode="tel" autoComplete="tel" className={inputCls}
             value={values.phone} onChange={(e) => set("phone", e.target.value)} onBlur={() => blur("phone")}
             aria-invalid={!!errors.phone} aria-describedby={err("phone")} />
-          <FieldError name="phone" message={errors.phone} />
+          <FieldError name="phone" code={errors.phone} errors={t.errors} />
         </div>
         <div>
           <label htmlFor="division" className={labelCls}>
-            Division {values.type === "general" && <span className="font-normal normal-case tracking-normal text-steel">(optional)</span>}
+            {t.division} {values.type === "general" && <span className="font-normal normal-case tracking-normal text-steel">{t.optional}</span>}
           </label>
           <select id="division" name="division" className={inputCls} value={values.division}
             onChange={(e) => set("division", e.target.value)} aria-invalid={!!errors.division} aria-describedby={err("division")}>
-            <option value="">Select a division</option>
+            <option value="">{t.selectDivision}</option>
             {divisions.map((d) => (
-              <option key={d.slug} value={d.slug}>{d.name}</option>
+              <option key={d.slug} value={d.slug}>{d.name[lang]}</option>
             ))}
           </select>
         </div>
         <div>
           <label htmlFor="branch" className={labelCls}>
-            Preferred outlet <span className="font-normal normal-case tracking-normal text-steel">(optional)</span>
+            {t.branch} <span className="font-normal normal-case tracking-normal text-steel">{t.optional}</span>
           </label>
           <select id="branch" name="branch" className={inputCls} value={values.branch}
             onChange={(e) => set("branch", e.target.value)} aria-invalid={!!errors.branch} aria-describedby={err("branch")}>
-            <option value="">No preference</option>
+            <option value="">{t.noPreference}</option>
             {branches.map((b) => (
               <option key={b.slug} value={b.slug}>{b.name}</option>
             ))}
@@ -230,18 +238,18 @@ export function EnquiryForm() {
 
       <div>
         <label htmlFor="message" className={labelCls}>
-          Message <span className="text-brand">*</span>
+          {t.message} <span className="text-brand">*</span>
         </label>
         <textarea id="message" name="message" rows={6} className={`${inputCls} resize-y`} value={values.message}
           onChange={(e) => set("message", e.target.value)} onBlur={() => blur("message")}
           aria-invalid={!!errors.message} aria-describedby={err("message")} required
-          placeholder={values.type === "business" ? "Products, quantities, project details…" : "How can we help?"} />
-        <FieldError name="message" message={errors.message} />
+          placeholder={values.type === "business" ? t.placeholderBusiness : t.placeholderGeneral} />
+        <FieldError name="message" code={errors.message} errors={t.errors} />
       </div>
 
       {/* Honeypot: hidden from people, visible to bots */}
       <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
-        <label htmlFor="website">Website</label>
+        <label htmlFor="website">{t.honeypot}</label>
         <input id="website" name="website" tabIndex={-1} autoComplete="off" value={values.website}
           onChange={(e) => set("website", e.target.value)} />
       </div>
@@ -251,19 +259,19 @@ export function EnquiryForm() {
           <div role="alert" className="border-l-4 border-brand bg-brand/[0.06] p-5">
             <p className="flex items-center gap-2 font-semibold text-brand">
               <AlertTriangle aria-hidden className="size-5" />
-              {failure === "not_configured" ? "Online enquiries aren’t available yet" : "Your message could not be sent"}
+              {failure === "not_configured" ? t.errNotConfiguredTitle : t.errOtherTitle}
             </p>
             <p className="mt-2 text-[0.9375rem] text-[#3d3d3d]">
-              Nothing was sent. Please email us directly
+              {t.errBody1}
               {values.name && values.email && values.message.length >= 10 ? (
                 <>
                   {" "}
-                  — <a href={mailtoHref()} className="font-semibold text-brand underline underline-offset-4">open your email app with this message ready</a>
+                  — <a href={mailtoHref()} className="font-semibold text-brand underline underline-offset-4">{t.errOpenMail}</a>
                 </>
               ) : (
-                <> at <a href={`mailto:${site.hq.email}`} className="font-semibold text-brand underline underline-offset-4">{site.hq.email}</a></>
+                <>{t.errAt}<a href={`mailto:${site.hq.email}`} dir="ltr" className="font-semibold text-brand underline underline-offset-4">{site.hq.email}</a></>
               )}
-              , or call <a href={`tel:${site.hq.telHref}`} className="whitespace-nowrap font-semibold text-brand underline underline-offset-4">{site.hq.tel}</a>.
+              {t.errOrCall}<a href={`tel:${site.hq.telHref}`} dir="ltr" className="whitespace-nowrap font-semibold text-brand underline underline-offset-4">{site.hq.tel}</a>.
             </p>
           </div>
         )}
@@ -272,11 +280,11 @@ export function EnquiryForm() {
       <button type="submit" disabled={status === "submitting"} className={buttonClasses("primary", "w-full sm:w-auto disabled:opacity-70")}>
         {status === "submitting" ? (
           <>
-            <Loader2 aria-hidden className="size-4 animate-spin" /> <span>Sending…</span>
+            <Loader2 aria-hidden className="size-4 animate-spin" /> <span>{t.sending}</span>
           </>
         ) : (
           <>
-            <span>Send enquiry</span> <Send aria-hidden className="size-4" />
+            <span>{t.submit}</span> <Send aria-hidden className="size-4" />
           </>
         )}
       </button>

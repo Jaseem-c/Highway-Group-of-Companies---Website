@@ -1,12 +1,7 @@
 import { divisions } from "@/content/divisions";
 import { branches } from "@/content/branches";
 
-export const enquiryTypes = [
-  { value: "general", label: "General enquiry" },
-  { value: "business", label: "Business / product enquiry" },
-] as const;
-
-export type EnquiryType = (typeof enquiryTypes)[number]["value"];
+export type EnquiryType = "general" | "business";
 
 export type EnquiryInput = {
   type: EnquiryType;
@@ -21,23 +16,25 @@ export type EnquiryInput = {
   website: string;
 };
 
-export type FieldErrors = Partial<Record<keyof EnquiryInput, string>>;
+/** Error codes; the UI maps each code to localized copy (dictionary `form.errors`). */
+export type ErrorCode = "name" | "email" | "phone" | "company" | "messageShort" | "messageLong" | "division" | "branch";
+export type FieldErrors = Partial<Record<keyof EnquiryInput, ErrorCode>>;
 
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const phoneRe = /^[+()\d][\d\s().-]{5,}$/;
 
 export function validateEnquiry(v: EnquiryInput): FieldErrors {
   const e: FieldErrors = {};
-  if (v.name.trim().length < 2) e.name = "Please enter your full name.";
-  if (!emailRe.test(v.email.trim())) e.email = "Please enter a valid email address.";
-  if (v.phone.trim() && !phoneRe.test(v.phone.trim())) e.phone = "Please enter a valid phone number.";
-  if (v.type === "business" && v.company.trim().length < 2) e.company = "Please tell us your company name.";
-  if (v.message.trim().length < 10) e.message = "Please tell us a little more (at least 10 characters).";
-  if (v.message.length > 3000) e.message = "Please keep your message under 3,000 characters.";
-  if (v.division && !divisions.some((d) => d.slug === v.division)) e.division = "Please choose a division from the list.";
-  if (v.branch && !branches.some((b) => b.slug === v.branch)) e.branch = "Please choose an outlet from the list.";
+  if (v.name.trim().length < 2) e.name = "name";
+  if (!emailRe.test(v.email.trim())) e.email = "email";
+  if (v.phone.trim() && !phoneRe.test(v.phone.trim())) e.phone = "phone";
+  if (v.type === "business" && v.company.trim().length < 2) e.company = "company";
+  if (v.message.trim().length < 10) e.message = "messageShort";
+  if (v.message.length > 3000) e.message = "messageLong";
+  if (v.division && !divisions.some((d) => d.slug === v.division)) e.division = "division";
+  if (v.branch && !branches.some((b) => b.slug === v.branch)) e.branch = "branch";
   return e;
 }
 
-export const divisionName = (slug: string) => divisions.find((d) => d.slug === slug)?.name ?? "";
+export const divisionName = (slug: string) => divisions.find((d) => d.slug === slug)?.name.en ?? "";
 export const branchName = (slug: string) => branches.find((b) => b.slug === slug)?.name ?? "";

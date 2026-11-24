@@ -40,3 +40,16 @@ While `showReviewFlags` is `true` in `src/content/site.ts`, unverified data show
 - No photography exists for Hardware, Building Materials, Paint, Power Tools or Safety — they use the brochure's own line icons. Supply photos to upgrade these.
 - Brand logos are small raster images from the brochure (shown on white at modest size). Vector/high-res logos from brand owners are recommended.
 - The logo lockup is a cleaned crop of the brochure cover (≈1744 px wide). **Supply the original SVG/PNG logo** to replace `public/brand/highway-lockup.png`.
+
+## Arabic (العربية) translation — needs native-speaker review
+The brochure is English-only. **All Arabic text on the site is an AI-drafted translation** and has not been checked by a native Arabic speaker or by the client. Nothing was invented beyond the meaning of the English source, but wording, tone and terminology must be reviewed before the Arabic site is promoted.
+
+- [ ] **Official Arabic company name.** The brochure gives none. The site uses "مجموعة شركات هاي واي" (HIGH WAY Group of Company) and "هاي واي للمعدات الكهربائية ذ.م.م" (Highway Electrical Equipment L.L.C.). Supply the registered Arabic trade names.
+- [ ] **Branch names and legal forms are kept in Latin script** (Spot Light, High Volt, Future Corner, Fusion Tech, Best Highway, Power Gate and their legal suffixes) because no Arabic names are printed. Supply the registered Arabic names if they exist.
+- [ ] **Addresses.** Well-known place names are translated (أبوظبي, الخالدية, مدينة زايد, مدينة محمد بن زايد, شارع المرور, شارع هزاع بن زايد, شارع حمدان, الزياني, المرفأ, منطقة الظفرة). Shop/landmark names and the "Wadi Al Mikhaylfah St. 14" street are left in Latin. Confirm the official Arabic spellings.
+- [ ] **Positioning line.** Arabic: "شركة تُمكّن المشاريع وتبني المستقبل...." and headline "نُمكّن المشاريع. نبني المستقبل." — a translation of the English tagline, not an official Arabic slogan.
+- [ ] **Vision / Mission** are translations of the (already grammar-adjusted) English text.
+- [ ] **Product terminology** (e.g. لوحات مفاتيح التوزيع for "Switch gears", الشطّافات for "Shattafs", فاصل عزل for "Isolator", مجاري الكابلات for "Trunking"). Trade vocabulary varies by region — confirm what customers in the UAE actually use.
+- [ ] **Division names** (e.g. الإضاءة والتحكم الكهربائي, لوحات التحكم والأتمتة, الأدوات والعدد for "Hardware", العدد الكهربائية for "Power Tools"). Confirm.
+- [ ] Brand logos, phone numbers, emails, P.O. Box and legal forms are shown unchanged in both languages (numbers/emails are always left-to-right).
+- [ ] Contact-form messages, validation errors and the "Verify" review tags are translated; the **enquiry e-mail that staff receive stays in English** by design.

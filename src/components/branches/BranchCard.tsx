@@ -2,11 +2,13 @@ import Image from "next/image";
 import { Mail, MapPin, Navigation, Phone, Printer } from "lucide-react";
 import { mapsUrl, type Branch } from "@/content/branches";
 import { ReviewTag } from "@/components/ui/ReviewTag";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/en";
 
 const row = "flex gap-3 text-[0.9375rem]";
 const icon = "mt-1 size-4 shrink-0 text-brand";
 
-export function BranchCard({ branch, index }: { branch: Branch; index: number }) {
+export function BranchCard({ branch, index, lang, t }: { branch: Branch; index: number; lang: Locale; t: Dictionary }) {
   const dark = branch.isHeadOffice;
   return (
     <article
@@ -20,10 +22,10 @@ export function BranchCard({ branch, index }: { branch: Branch; index: number })
           {branch.logo && (
             <Image
               src={branch.logo}
-              alt={`${branch.name} logo`}
+              alt={t.common.logoAlt(branch.name)}
               width={200}
               height={120}
-              className={`max-h-20 w-auto object-contain object-left ${dark ? "rounded-none bg-white p-2" : ""}`}
+              className={`max-h-20 w-auto object-contain object-left rtl:object-right ${dark ? "rounded-none bg-white p-2" : ""}`}
             />
           )}
         </div>
@@ -33,43 +35,43 @@ export function BranchCard({ branch, index }: { branch: Branch; index: number })
       </header>
 
       <h3 className="display mt-6 text-xl leading-[1.08] sm:text-2xl">
-        {branch.name}
-        <ReviewTag note={branch.review} />
+        <bdi lang="en" dir="ltr">{branch.name}</bdi>
+        <ReviewTag note={branch.review} lang={lang} />
       </h3>
       <p className={`mt-2 text-sm ${dark ? "text-white/65" : "text-steel"}`}>
-        {branch.legalForm}
-        {branch.isHeadOffice && " · Official contact office"}
+        {branch.isHeadOffice ? t.branches.headOffice : <bdi lang="en" dir="ltr">{branch.legalForm}</bdi>}
+        {branch.isHeadOffice && t.branches.officialContact}
       </p>
 
       <ul className="mt-8 space-y-3">
         <li className={row}>
           <MapPin aria-hidden className={icon} />
           <address className="not-italic">
-            {branch.address.map((l) => (
+            {branch.address[lang].map((l) => (
               <span key={l} className="block">
                 {l}
               </span>
             ))}
-            {branch.poBox && <span className="block">P.O. Box {branch.poBox}</span>}
+            {branch.poBox && <span className="block">{t.common.poBox} <bdi dir="ltr">{branch.poBox}</bdi></span>}
           </address>
         </li>
         {branch.phones.map((p) => (
           <li key={p.href} className={row}>
             <Phone aria-hidden className={icon} />
             <a href={`tel:${p.href}`} className="link-underline">
-              {p.label}: {p.display}
+              {t.common[p.kind]}: <bdi dir="ltr">{p.display}</bdi>
             </a>
           </li>
         ))}
         {branch.fax && (
           <li className={row}>
             <Printer aria-hidden className={icon} />
-            <span>Fax: {branch.fax}</span>
+            <span>{t.common.fax}: <bdi dir="ltr">{branch.fax}</bdi></span>
           </li>
         )}
         <li className={row}>
           <Mail aria-hidden className={icon} />
-          <a href={`mailto:${branch.email}`} className="link-underline break-all">
+          <a href={`mailto:${branch.email}`} dir="ltr" className="link-underline break-all">
             {branch.email}
           </a>
         </li>
@@ -85,8 +87,8 @@ export function BranchCard({ branch, index }: { branch: Branch; index: number })
           }`}
         >
           <Navigation aria-hidden className="size-4" />
-          Open in Google Maps
-          <span className="sr-only"> (opens in a new tab)</span>
+          {t.common.openInMaps}
+          <span className="sr-only">{t.common.opensNewTab}</span>
         </a>
       </div>
     </article>

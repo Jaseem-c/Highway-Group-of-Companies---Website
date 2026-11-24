@@ -27,7 +27,7 @@ export function LinkButton({ variant = "primary", arrow = true, className = "", 
     <Link className={buttonClasses(variant, className)} {...props}>
       <span>{children}</span>
       {arrow && (
-        <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+        <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
       )}
     </Link>
   );
