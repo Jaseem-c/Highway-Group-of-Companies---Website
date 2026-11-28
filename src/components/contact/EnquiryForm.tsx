@@ -230,7 +230,7 @@ export function EnquiryForm({ lang, t }: { lang: Locale; t: Dictionary["form"] }
             onChange={(e) => set("branch", e.target.value)} aria-invalid={!!errors.branch} aria-describedby={err("branch")}>
             <option value="">{t.noPreference}</option>
             {branches.map((b) => (
-              <option key={b.slug} value={b.slug}>{b.name}</option>
+              <option key={b.slug} value={b.slug}>{b.area[lang]}</option>
             ))}
           </select>
         </div>

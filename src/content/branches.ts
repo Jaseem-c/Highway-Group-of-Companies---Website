@@ -3,6 +3,8 @@
  * The brochure prints these as images, so every entry must be verified
  * against the source before publishing (see CONTENT-REVIEW.md).
  * Nothing here has been invented: missing fields are simply left out.
+ * All 7 branches belong to Highway Electrical Equipment, so they are shown by
+ * location and contact details only (no separate trade names or logos).
  */
 
 import type { L } from "@/i18n/config";
@@ -11,17 +13,11 @@ export type Region = "abu-dhabi" | "al-dhafra";
 
 export type Branch = {
   slug: string;
-  name: string;
-  /** Compact name for lists. */
-  shortName: string;
-  /** Legal form exactly as printed. */
-  legalForm?: string;
-  logo?: string;
   isHeadOffice?: boolean;
   region: Region;
   /** Address lines as printed. */
   address: { en: string[]; ar: string[] };
-  /** Short area label for compact lists. */
+  /** Location label used as the branch title (branches are shown by location, not by trade name). */
   area: L;
   phones: { kind: "tel" | "mob"; display: string; href: string }[];
   fax?: string;
@@ -33,11 +29,7 @@ export type Branch = {
 
 export const branches: Branch[] = [
   {
-    slug: "highway-electrical-equipment",
-    shortName: "Highway Electrical Equipment",
-    name: "Highway Electrical Equipment L.L.C.",
-    legalForm: "Head office",
-    logo: "/brand/highway-icon.png",
+    slug: "hamdan-street-ziyani",
     isHeadOffice: true,
     region: "abu-dhabi",
     address: { en: ["Hamdan Street – Ziyani", "Abu Dhabi – UAE"], ar: ["شارع حمدان – الزياني", "أبوظبي – الإمارات"] },
@@ -46,14 +38,10 @@ export const branches: Branch[] = [
     fax: "02-671 5129",
     poBox: "51935",
     email: "highwayelectricaleqp@gmail.com",
-    review: "Brochure lists this as the 'Contact Us' office; confirm it is the 7th outlet.",
+    review: "Brochure lists this as the 'Contact Us' office; confirm it is the 7th branch.",
   },
   {
-    slug: "spot-light",
-    shortName: "Spot Light",
-    name: "Spot Light Electrical And Building Materials",
-    legalForm: "Sole Proprietorship L.L.C.",
-    logo: "/images/branches/spot-light.png",
+    slug: "hazza-bin-zayed-street",
     region: "abu-dhabi",
     address: { en: ["Opp. Bus Stand, near Speed Mobile Shop", "Hazza Bin Zayed Street", "Abu Dhabi – U.A.E."], ar: ["مقابل موقف الحافلات، بالقرب من Speed Mobile Shop", "شارع هزاع بن زايد", "أبوظبي – الإمارات"] },
     area: { en: "Hazza Bin Zayed Street", ar: "شارع هزاع بن زايد" },
@@ -61,25 +49,16 @@ export const branches: Branch[] = [
     email: "highwayelectricaleqp@gmail.com",
   },
   {
-    slug: "high-volt",
-    shortName: "High Volt",
-    name: "High Volt Electrical & Building Materials",
-    legalForm: "L.L.C. – O.P.C",
-    logo: "/images/branches/high-volt.png",
+    slug: "al-marfa",
     region: "al-dhafra",
     address: { en: ["MR 1 Sector, Al Marfa", "Al Dhafra Region", "Abu Dhabi, U.A.E"], ar: ["قطاع MR 1، المرفأ", "منطقة الظفرة", "أبوظبي، الإمارات"] },
     area: { en: "Al Marfa, Al Dhafra", ar: "المرفأ، الظفرة" },
     phones: [{ kind: "tel", display: "02 621 5507", href: "+97126215507" }],
     poBox: "51935",
     email: "highwayelectricaleqp@gmail.com",
-    review: "Legal form is printed as 'O.P.C' in the heading but 'S.P.C' inside the logo.",
   },
   {
-    slug: "future-corner",
-    shortName: "Future Corner",
-    name: "Future Corner Electrical & Building Materials",
-    legalForm: "L.L.C. – O.P.C",
-    logo: "/images/branches/future-corner.png",
+    slug: "muroor-road",
     region: "abu-dhabi",
     address: { en: ["Muroor Road, Opp Zayed University", "Abu Dhabi – UAE"], ar: ["شارع المرور، مقابل جامعة زايد", "أبوظبي – الإمارات"] },
     area: { en: "Muroor Road", ar: "شارع المرور" },
@@ -87,11 +66,7 @@ export const branches: Branch[] = [
     email: "highwayelectricaleqp@gmail.com",
   },
   {
-    slug: "fusion-tech",
-    shortName: "Fusion Tech",
-    name: "Fusion Tech Electrical and Building Materials",
-    legalForm: "L.L.C. – S.P.C",
-    logo: "/images/branches/fusion-tech.png",
+    slug: "mohammed-bin-zayed-city",
     region: "abu-dhabi",
     address: { en: ["Sector ME 10, Wadi Al Mikhaylfah St. 14", "Mohammed Bin Zayed City", "Abu Dhabi – U.A.E."], ar: ["قطاع ME 10، Wadi Al Mikhaylfah St. 14", "مدينة محمد بن زايد", "أبوظبي – الإمارات"] },
     area: { en: "Mohammed Bin Zayed City", ar: "مدينة محمد بن زايد" },
@@ -100,11 +75,7 @@ export const branches: Branch[] = [
     review: "Street name is spelled 'Mikhaylfah' and 'Mikhayifah' in different places in the brochure.",
   },
   {
-    slug: "best-highway",
-    shortName: "Best Highway",
-    name: "Best Highway Electrical and Building Materials",
-    legalForm: "Sole Proprietorship L.L.C.",
-    logo: "/images/branches/best-highway.png",
+    slug: "khalidiya",
     region: "abu-dhabi",
     address: { en: ["Near Hatta Smokers Accessories", "Khalidiya, Abu Dhabi – U.A.E."], ar: ["بالقرب من Hatta Smokers Accessories", "الخالدية، أبوظبي – الإمارات"] },
     area: { en: "Khalidiya", ar: "الخالدية" },
@@ -113,11 +84,7 @@ export const branches: Branch[] = [
     email: "highwayelectricaleqp@gmail.com",
   },
   {
-    slug: "power-gate",
-    shortName: "Power Gate",
-    name: "Power Gate Electrical Equipment & Building Materials",
-    legalForm: "L.L.C. – S.P.C",
-    logo: "/images/branches/power-gate.png",
+    slug: "madinat-zayed",
     region: "al-dhafra",
     address: { en: ["Madinat Zayed, Al Dhafra Region", "Abu Dhabi – United Arab Emirates"], ar: ["مدينة زايد، منطقة الظفرة", "أبوظبي – الإمارات العربية المتحدة"] },
     area: { en: "Madinat Zayed, Al Dhafra", ar: "مدينة زايد، الظفرة" },
@@ -128,5 +95,5 @@ export const branches: Branch[] = [
 
 export const mapsUrl = (b: Branch) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    [b.name, ...b.address.en].join(", "),
+    ["Highway Electrical Equipment", ...b.address.en].join(", "),
   )}`;

@@ -37,4 +37,4 @@ export function validateEnquiry(v: EnquiryInput): FieldErrors {
 }
 
 export const divisionName = (slug: string) => divisions.find((d) => d.slug === slug)?.name.en ?? "";
-export const branchName = (slug: string) => branches.find((b) => b.slug === slug)?.name ?? "";
+export const branchName = (slug: string) => branches.find((b) => b.slug === slug)?.area.en ?? "";

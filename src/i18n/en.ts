@@ -234,6 +234,7 @@ export const en = {
     regionsNav: "Regions",
     regions: { "abu-dhabi": "Abu Dhabi", "al-dhafra": "Al Dhafra Region" },
     headOffice: "Head office",
+    branch: "Branch",
     officialContact: " · Official contact office",
   },
 

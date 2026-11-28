@@ -7,7 +7,6 @@ While `showReviewFlags` is `true` in `src/content/site.ts`, unverified data show
 ## Branch details (brochure page 7 prints these as an image)
 - [ ] The brochure says **7 outlets** but shows **6 branch cards + the "Contact Us" office**. The site treats Highway Electrical Equipment L.L.C. (Hamdan Street – Ziyani) as outlet 1 of 7. Confirm.
 - [ ] Re-check every phone number, P.O. Box and address against originals (transcribed from an image).
-- [ ] **High Volt** legal form: heading says "L.L.C – O.P.C", logo says "L.L.C – S.P.C".
 - [ ] **Fusion Tech** street: "Wadi Al Mikhaylfah" vs "Wadi Al Mikhayifah" in different places.
 - [ ] High Volt, Best Highway share P.O. Box 51935 with the head office. Confirm intentional.
 - [ ] UAE landline numbers were converted to `tel:` format (02 → +971 2). Confirm.
@@ -45,7 +44,7 @@ While `showReviewFlags` is `true` in `src/content/site.ts`, unverified data show
 The brochure is English-only. **All Arabic text on the site is an AI-drafted translation** and has not been checked by a native Arabic speaker or by the client. Nothing was invented beyond the meaning of the English source, but wording, tone and terminology must be reviewed before the Arabic site is promoted.
 
 - [ ] **Official Arabic company name.** The brochure gives none. The site uses "مجموعة شركات هاي واي" (HIGH WAY Group of Company) and "هاي واي للمعدات الكهربائية ذ.م.م" (Highway Electrical Equipment L.L.C.). Supply the registered Arabic trade names.
-- [ ] **Branch names and legal forms are kept in Latin script** (Spot Light, High Volt, Future Corner, Fusion Tech, Best Highway, Power Gate and their legal suffixes) because no Arabic names are printed. Supply the registered Arabic names if they exist.
+- [x] Branches are shown by **location and contact details only** (no separate trade names or logos), as requested — all 7 belong to Highway Electrical Equipment.
 - [ ] **Addresses.** Well-known place names are translated (أبوظبي, الخالدية, مدينة زايد, مدينة محمد بن زايد, شارع المرور, شارع هزاع بن زايد, شارع حمدان, الزياني, المرفأ, منطقة الظفرة). Shop/landmark names and the "Wadi Al Mikhaylfah St. 14" street are left in Latin. Confirm the official Arabic spellings.
 - [ ] **Positioning line.** Arabic: "شركة تُمكّن المشاريع وتبني المستقبل...." and headline "نُمكّن المشاريع. نبني المستقبل." — a translation of the English tagline, not an official Arabic slogan.
 - [ ] **Vision / Mission** are translations of the (already grammar-adjusted) English text.

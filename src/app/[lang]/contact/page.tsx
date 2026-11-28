@@ -94,7 +94,7 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
               <ul className="mt-5 divide-y divide-line border-y border-line">
                 {branches.filter((b) => !b.isHeadOffice).map((b) => (
                   <li key={b.slug} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4">
-                    <span className="font-semibold"><bdi lang="en" dir="ltr">{b.shortName}</bdi></span>
+                    <span className="font-semibold">{b.area[lang]}</span>
                     <a href={`tel:${b.phones[0].href}`} dir="ltr" className="link-underline text-[0.9375rem] text-[#3d3d3d]">
                       {b.phones[0].display}
                     </a>

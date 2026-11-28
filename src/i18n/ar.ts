@@ -237,6 +237,7 @@ export const ar: Dictionary = {
     regionsNav: "المناطق",
     regions: { "abu-dhabi": "أبوظبي", "al-dhafra": "منطقة الظفرة" },
     headOffice: "المكتب الرئيسي",
+    branch: "الفرع",
     officialContact: " · مكتب التواصل الرسمي",
   },
 

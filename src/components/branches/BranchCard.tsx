@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Mail, MapPin, Navigation, Phone, Printer } from "lucide-react";
 import { mapsUrl, type Branch } from "@/content/branches";
 import { ReviewTag } from "@/components/ui/ReviewTag";
@@ -18,30 +17,18 @@ export function BranchCard({ branch, index, lang, t }: { branch: Branch; index: 
       }`}
     >
       <header className="flex items-start justify-between gap-6">
-        <div className={`flex h-20 w-32 items-center justify-start ${dark ? "" : ""}`}>
-          {branch.logo && (
-            <Image
-              src={branch.logo}
-              alt={t.common.logoAlt(branch.name)}
-              width={200}
-              height={120}
-              className={`max-h-20 w-auto object-contain object-left rtl:object-right ${dark ? "rounded-none bg-white p-2" : ""}`}
-            />
-          )}
-        </div>
+        <p className={`font-display text-xs font-bold uppercase tracking-[0.2em] ${dark ? "text-white/60" : "text-steel"}`}>
+          {branch.isHeadOffice ? t.branches.headOffice : t.branches.branch}
+        </p>
         <span className={`font-display text-sm font-bold tracking-[0.2em] ${dark ? "text-white/60" : "text-brand"}`}>
           {String(index + 1).padStart(2, "0")}
         </span>
       </header>
 
       <h3 className="display mt-6 text-xl leading-[1.08] sm:text-2xl">
-        <bdi lang="en" dir="ltr">{branch.name}</bdi>
+        {branch.area[lang]}
         <ReviewTag note={branch.review} lang={lang} />
       </h3>
-      <p className={`mt-2 text-sm ${dark ? "text-white/65" : "text-steel"}`}>
-        {branch.isHeadOffice ? t.branches.headOffice : <bdi lang="en" dir="ltr">{branch.legalForm}</bdi>}
-        {branch.isHeadOffice && t.branches.officialContact}
-      </p>
 
       <ul className="mt-8 space-y-3">
         <li className={row}>

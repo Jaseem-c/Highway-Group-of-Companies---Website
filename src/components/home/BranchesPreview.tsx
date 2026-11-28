@@ -32,9 +32,9 @@ export function BranchesPreview({ lang, t }: { lang: Locale; t: Dictionary }) {
               >
                 <span className="font-display text-sm font-bold tracking-[0.2em] text-brand">{String(i + 1).padStart(2, "0")}</span>
                 <span className="font-display text-lg font-bold uppercase leading-tight [font-variation-settings:'wdth'_105] sm:text-xl">
-                  {b.shortName}
+                  {b.area[lang]}
                 </span>
-                <span className="col-start-2 text-sm text-white/60 sm:col-start-auto">{b.area[lang]}</span>
+                <span dir="ltr" className="col-start-2 text-sm text-white/60 rtl:text-right sm:col-start-auto">{b.phones[0].display}</span>
                 <ArrowUpRight aria-hidden className="rtl:-scale-x-100 row-start-1 col-start-3 size-5 text-white/40 transition-colors group-hover:text-brand sm:col-start-4 sm:row-start-auto" />
               </Link>
             </Reveal>
